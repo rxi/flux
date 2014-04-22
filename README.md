@@ -99,10 +99,11 @@ To add a tween to a group, the group's `to()` method should be used.
 ```lua
 group:to(t, 3, { x = 10, y = 20 })
 ```
-Groups are useful for games where you may have a set of tweens which effect
-objects in the game world and which you want to pause when the game is paused.
-A group's tweens can be paused by simply neglecting to call its `update()`
-method; when a group is destroyed its tweens are also destroyed.
+A good example of where groups are useful is for games where you may have a set
+of tweens which effect objects in the game world and which you want to pause
+when the game is paused.  A group's tweens can be paused by simply neglecting
+to call its `update()` method; when a group is destroyed its tweens are also
+destroyed.
 
 
 ## License
