@@ -101,7 +101,7 @@ function tween:after(...)
         v.diff = v.diff + (v.start - t.obj[k])
         v.start = t.obj[k]
       end
-      table.insert(self.parent, t)
+      flux.add(self.parent, t)
     end)
   return t
 end
@@ -114,15 +114,7 @@ end
 
 
 function flux:to(obj, time, vars)
-  for i, t in ipairs(self) do
-    if t.obj == obj then
-      for k in pairs(vars) do t.vars[k] = nil end
-    end
-  end
-  local t = tween.new(obj, time, vars)
-  t.parent = self
-  table.insert(self, t)
-  return t
+  return flux.add(self, tween.new(obj, time, vars))
 end
 
 
@@ -149,6 +141,18 @@ function flux:update(deltatime)
       end
     end
   end
+end
+
+
+function flux:add(tween)
+  for i, t in ipairs(self) do
+    if t.obj == tween.obj then
+      for k in pairs(tween.vars) do t.vars[k] = nil end
+    end
+  end
+  tween.parent = self
+  table.insert(self, tween)
+  return tween
 end
 
 
