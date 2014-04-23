@@ -59,9 +59,9 @@ The default easing type is `quadout`.
 The amount of time flux should wait before starting the tween; `time` should be
 a number of seconds. The default delay time is `0`.
 
-#### :onbegin(fn)
-Sets the function `fn` to be called when the tween begins (once the delay has
-finished). `:onbegin()` can be called multiple times to add more than one
+#### :onstart(fn)
+Sets the function `fn` to be called when the tween starts (once the delay has
+finished). `:onstart()` can be called multiple times to add more than one
 function.
 
 #### :onupdate(fn)
