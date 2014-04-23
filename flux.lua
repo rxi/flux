@@ -80,8 +80,8 @@ tween.oncomplete  = makefsetter("_oncomplete")
 function tween.new(obj, time, vars)
   local self = setmetatable({}, tween)
   self.obj = obj
-  self.rate = time > 0 and 1 / time or 1
-  self.progress = 0
+  self.rate = time > 0 and 1 / time or 0
+  self.progress = time > 0 and 0 or 1
   self._delay = 0
   self._ease = "quadout"
   self.vars = {}
