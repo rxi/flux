@@ -94,6 +94,7 @@ end
 
 function tween:after(...)
   local t = tween.new(...)
+  t.parent = self.parent
   self:oncomplete(
     function()
       for k, v in pairs(t.vars) do
