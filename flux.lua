@@ -135,13 +135,13 @@ function flux:update(deltatime)
         t._onstart()
         t._onstart = nil
       end
-      if t._onupdate then t._onupdate() end
       t.progress = t.progress + t.rate * deltatime 
       local p = t.progress
       local x = p > 1 and 1 or flux.easing[t._ease](p)
       for k, v in pairs(t.vars) do
         t.obj[k] = v.start + x * v.diff
       end
+      if t._onupdate then t._onupdate() end
       if p >= 1 then
         flux.remove(self, i)
         if t._oncomplete then t._oncomplete() end
