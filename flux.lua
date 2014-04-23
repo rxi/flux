@@ -137,7 +137,7 @@ function flux:update(deltatime)
       end
       t.progress = t.progress + t.rate * deltatime 
       local p = t.progress
-      local x = p > 1 and 1 or flux.easing[t._ease](p)
+      local x = p >= 1 and 1 or flux.easing[t._ease](p)
       for k, v in pairs(t.vars) do
         t.obj[k] = v.start + x * v.diff
       end
