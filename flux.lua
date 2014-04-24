@@ -7,7 +7,7 @@
 -- under the terms of the MIT license. See LICENSE for details.
 --
 
-local flux = { _version = "0.0.1" }
+local flux = { _version = "0.1.0" }
 flux.__index = flux
 
 flux.tweens = {}
