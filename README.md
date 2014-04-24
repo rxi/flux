@@ -1,5 +1,5 @@
 # flux
-A lightweight tweening library for lua.
+A fast, lightweight tweening library for Lua.
 
 ## Installation
 The [flux.lua](flux.lua?raw=1) file should be dropped into an existing project
