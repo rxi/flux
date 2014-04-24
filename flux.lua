@@ -150,8 +150,8 @@ end
 
 
 function flux:clear(obj, vars)
-  for i, t in ipairs(self) do
-    if t.inited and t.obj == obj then
+  for t in pairs(self[obj]) do
+    if t.inited then
       for k in pairs(vars) do t.vars[k] = nil end
     end
   end
@@ -159,14 +159,24 @@ end
 
 
 function flux:add(tween)
-  tween.parent = self
+  -- Add to object table, create table if it does not exist
+  local obj = tween.obj
+  self[obj] = self[obj] or {}
+  self[obj][tween] = true
+  -- Add to array
   table.insert(self, tween)
+  tween.parent = self
   return tween
 end
 
 
 function flux:remove(x)
   if type(x) == "number" then
+    -- Remove from object table, destroy table if it is empty
+    local obj = self[x].obj
+    self[obj][self[x]] = nil
+    if not next(self[obj]) then self[obj] = nil end
+    -- Remove from array
     self[x] = self[#self]
     return table.remove(self)
   end
