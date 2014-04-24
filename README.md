@@ -1,4 +1,4 @@
-# flux.lua
+# flux
 A lightweight tweening library for lua.
 
 ## Installation

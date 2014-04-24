@@ -1,5 +1,5 @@
 --
--- flux.lua
+-- flux
 --
 -- Copyright (c) 2014, rxi
 --
