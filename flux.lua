@@ -86,9 +86,17 @@ function tween.new(obj, time, vars)
   self._ease = "quadout"
   self.vars = {}
   for k, v in pairs(vars) do
-    self.vars[k] = { start = obj[k], diff = vars[k] - obj[k] }
+    self.vars[k] = v
   end
   return self
+end
+
+
+function tween:init()
+  for k, v in pairs(self.vars) do
+    self.vars[k] = { start = self.obj[k], diff = v - self.obj[k] }
+  end
+  self.inited = true
 end
 
 
@@ -97,10 +105,6 @@ function tween:after(...)
   t.parent = self.parent
   self:oncomplete(
     function()
-      for k, v in pairs(t.vars) do
-        v.diff = v.diff + (v.start - t.obj[k])
-        v.start = t.obj[k]
-      end
       flux.add(self.parent, t)
     end)
   return t
@@ -124,6 +128,10 @@ function flux:update(deltatime)
     if t._delay > 0 then
       t._delay = t._delay - deltatime
     else
+      if not t.inited then
+        flux.clear(self, t.obj, t.vars)
+        t:init()
+      end
       if t._onstart then
         t._onstart()
         t._onstart = nil
@@ -144,12 +152,16 @@ function flux:update(deltatime)
 end
 
 
-function flux:add(tween)
+function flux:clear(obj, vars)
   for i, t in ipairs(self) do
-    if t.obj == tween.obj then
-      for k in pairs(tween.vars) do t.vars[k] = nil end
+    if t.inited and t.obj == obj then
+      for k in pairs(vars) do t.vars[k] = nil end
     end
   end
+end
+
+
+function flux:add(tween)
   tween.parent = self
   table.insert(self, tween)
   return tween
