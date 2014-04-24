@@ -103,10 +103,7 @@ end
 function tween:after(...)
   local t = tween.new(...)
   t.parent = self.parent
-  self:oncomplete(
-    function()
-      flux.add(self.parent, t)
-    end)
+  self:oncomplete(function() flux.add(self.parent, t) end)
   return t
 end
 
