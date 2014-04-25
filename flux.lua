@@ -63,15 +63,22 @@ local function makefsetter(field)
   end
 end
 
-local function makesetter(field)
+local function makesetter(field, checkfn, errmsg)
   return function(self, x)
+    if checkfn and not checkfn(x) then
+      error(errmsg:gsub("%$x", tostring(x)), 2)
+    end
     self[field] = x
     return self
   end
 end
 
-tween.ease        = makesetter("_ease")
-tween.delay       = makesetter("_delay")
+tween.ease  = makesetter("_ease",
+                         function(x) return flux.easing[x] end,
+                         "bad easing type '$x'")
+tween.delay = makesetter("_delay",
+                         function(x) return type(x) == "number" end,
+                         "bad delay time; expected number")
 tween.onstart     = makefsetter("_onstart")
 tween.onupdate    = makefsetter("_onupdate")
 tween.oncomplete  = makefsetter("_oncomplete")
