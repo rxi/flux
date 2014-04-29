@@ -93,6 +93,9 @@ function tween.new(obj, time, vars)
   self._ease = "quadout"
   self.vars = {}
   for k, v in pairs(vars) do
+    if type(v) ~= "number" then
+      error("bad value for key '" .. k .. "'; expected number")
+    end
     self.vars[k] = v
   end
   return self
@@ -101,7 +104,11 @@ end
 
 function tween:init()
   for k, v in pairs(self.vars) do
-    self.vars[k] = { start = self.obj[k], diff = v - self.obj[k] }
+    local x = self.obj[k]
+    if type(x) ~= "number" then
+      error("bad value on object key '" .. k .. "'; expected number")
+    end
+    self.vars[k] = { start = x, diff = v - x }
   end
   self.inited = true
 end
