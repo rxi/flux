@@ -73,12 +73,13 @@ Sets the function `fn` to be called once the tween has finished and reached its
 destination values. `oncomplete()` can be called multiple times to add more
 than one function.
 
-#### :after(obj, time, vars)
+#### :after([obj,] time, vars)
 Creates a new tween and chains it to the end of the existing tween; the chained
 tween will be called after the original one has finished. Any additional
 chained function used after `:after()` will effect the chained tween. There is
 no limit to how many times `:after()` can be used in a chain, allowing the
-creation of long tween sequences.
+creation of long tween sequences. If `obj` is not specified the `obj` argument
+from the original tween is used.
 ```lua
 -- Tweens t.x to 10 over 2 seconds, then to 20 over 1 second
 flux.to(t, 2, { x = 10 }):after(t, 1, { x = 20 })
