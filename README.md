@@ -53,7 +53,8 @@ following easing types:
   `backin`       `backout`       `backinout`
   `elasticin`    `elasticout`    `elasticinout`
 
-The default easing type is `quadout`.
+The default easing type is `quadout`. Examples of the different easing types
+can be [found here](http://easings.net/).
 
 
 #### :delay(time)
