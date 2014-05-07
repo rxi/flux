@@ -42,15 +42,16 @@ The easing type which should be used by the tween; `type` should be a string
 containing the name of the easing to be used. The library provides the
 following easing types:
 
-  `linear`     ,
-  `quadin`     , `quadout`     , `quadinout`     ,
-  `quartin`    , `quartout`    , `quartinout`    ,
-  `quintin`    , `quintout`    , `quintinout`    , 
-  `expoin`     , `expoout`     , `expoinout`     ,
-  `sinein`     , `sineout`     , `sineinout`     ,
-  `circin`     , `circout`     , `circinout`     ,
-  `backin`     , `backout`     , `backinout`     ,
-  `elasticin`  , `elasticout`  , `elasticinout`  .
+  `linear`
+  `quadin`       `quadout`       `quadinout`
+  `cubicin`      `cubicout`      `cubicinout`
+  `quartin`      `quartout`      `quartinout`
+  `quintin`      `quintout`      `quintinout`
+  `expoin`       `expoout`       `expoinout`
+  `sinein`       `sineout`       `sineinout`
+  `circin`       `circout`       `circinout`
+  `backin`       `backout`       `backinout`
+  `elasticin`    `elasticout`    `elasticinout`
 
 The default easing type is `quadout`.
 
