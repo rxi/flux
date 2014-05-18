@@ -127,6 +127,11 @@ function tween:after(...)
 end
 
 
+function tween:stop()
+  flux.remove(self.parent, self)
+end
+
+
 
 function flux.group()
   return setmetatable({}, flux)
