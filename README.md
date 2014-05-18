@@ -87,6 +87,20 @@ from the original tween is used.
 flux.to(t, 2, { x = 10 }):after(t, 1, { x = 20 })
 ```
 
+### Stopping a tween
+If you want the ability to stop a tween before it has finished, the tween
+should be assigned to a variable when it is created.
+```lua
+local tween = flux.to(x, 2, { y = 20 }):delay(1)
+```
+The tween can then be stopped at any point by calling its `:stop()` method.
+```lua
+tween:stop()
+```
+This will cause the tween to immediatly be removed from its parent group and
+will leave its tweened variables at their current values. The tween's
+`oncomplete()` callback is not called.
+
 ### Groups
 flux provides the ability to create tween groups; these are objects
 which can have tweens added to them, and who are in charge of updating and
