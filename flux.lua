@@ -54,7 +54,8 @@ tween.__index = tween
 
 local function makefsetter(field)
   return function(self, x)
-    if type(x) ~= "function" and not getmetatable(x).__call then
+    local mt = getmetatable(x)
+    if type(x) ~= "function" and (not mt or not mt.__call) then
       error("expected function or callable", 2)
     end
     local old = self[field]
