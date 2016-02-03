@@ -123,7 +123,7 @@ function tween:after(...)
     t = tween.new(...)
   end
   t.parent = self.parent
-  self:oncomplete(function() flux.add(self.parent, t) end)
+  self:oncomplete(function(dt) flux.add(self.parent, t) t:update(dt) end)
   return t
 end
 
@@ -132,6 +132,32 @@ function tween:stop()
   flux.remove(self.parent, self)
 end
 
+function tween:update(deltatime)
+  if self._delay > 0 then
+    local newdelta = math.max(0,deltatime - self._delay)
+    self._delay = self._delay - deltatime
+    deltatime = newdelta
+  end
+  if not self.inited then
+    flux.clear(self.parent, self.obj, self.vars)
+    self:init()
+  end
+  if self._onstart then
+    self._onstart()
+    self._onstart = nil
+  end
+  self.progress = self.progress + self.rate * deltatime 
+  local p = self.progress
+  local x = p >= 1 and 1 or flux.easing[self._ease](p)
+  for k, v in pairs(self.vars) do
+    self.obj[k] = v.start + x * v.diff
+  end
+  if self._onupdate then self._onupdate() end
+  if self.progress >= 1 then
+    flux.remove(self.parent, i)
+    if self._oncomplete then self._oncomplete((1/self.rate) * (self.progress-1)) end
+  end
+end
 
 
 function flux.group()
@@ -147,29 +173,7 @@ end
 function flux:update(deltatime)
   for i = #self, 1, -1 do
     local t = self[i]
-    if t._delay > 0 then
-      t._delay = t._delay - deltatime
-    else
-      if not t.inited then
-        flux.clear(self, t.obj, t.vars)
-        t:init()
-      end
-      if t._onstart then
-        t._onstart()
-        t._onstart = nil
-      end
-      t.progress = t.progress + t.rate * deltatime 
-      local p = t.progress
-      local x = p >= 1 and 1 or flux.easing[t._ease](p)
-      for k, v in pairs(t.vars) do
-        t.obj[k] = v.start + x * v.diff
-      end
-      if t._onupdate then t._onupdate() end
-      if p >= 1 then
-        flux.remove(self, i)
-        if t._oncomplete then t._oncomplete() end
-      end
-    end
+    t:update(deltatime)
   end
 end
 
