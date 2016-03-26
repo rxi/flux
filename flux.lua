@@ -167,7 +167,7 @@ function flux:update(deltatime)
       if t._onupdate then t._onupdate() end
       if p >= 1 then
         flux.remove(self, i)
-        if t._oncomplete then t._oncomplete() end
+        if t._oncomplete then t._oncomplete(t.obj) end
       end
     end
   end
