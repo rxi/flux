@@ -59,7 +59,7 @@ local function makefsetter(field)
       error("expected function or callable", 2)
     end
     local old = self[field]
-    self[field] = old and function() old() x() end or x
+    self[field] = old and function() old(self.obj) x() end or x
     return self
   end
 end
