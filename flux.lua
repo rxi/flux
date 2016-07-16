@@ -59,7 +59,7 @@ local function makefsetter(field)
       error("expected function or callable", 2)
     end
     local old = self[field]
-    self[field] = old and function() old() x() end or x
+    self[field] = old and function() old(self.obj) x() end or x
     return self
   end
 end
@@ -167,7 +167,7 @@ function flux:update(deltatime)
       if t._onupdate then t._onupdate() end
       if p >= 1 then
         flux.remove(self, i)
-        if t._oncomplete then t._oncomplete() end
+        if t._oncomplete then t._oncomplete(t.obj) end
       end
     end
   end
