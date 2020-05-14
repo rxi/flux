@@ -71,7 +71,7 @@ Sets the function `fn` to be called each frame the tween updates a value.
 `onupdate()` can be called multiple times to add more than one function.
 
 #### :cycle(times|forever)
-The amount of times the tween should be repeated. If true is send, it will
+The amount of times the tween should be repeated. If true is sent, it will
 repeat forever.
 
 #### :rewind(times|forever)
