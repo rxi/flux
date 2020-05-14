@@ -80,9 +80,17 @@ tween.ease  = makesetter("_ease",
 tween.delay = makesetter("_delay",
                          function(x) return type(x) == "number" end,
                          "bad delay time; expected number")
+tween.rewind = makesetter("_rewind",
+                         function(x) return type(x):match("[number|boolean]") end,
+                         "bad rewind time; expected number or boolean")
+tween.cycle = makesetter("_cycle",
+                         function(x) return type(x):match("[number|boolean]") end,
+                         "bad cycle value; expected number or boolean")
 tween.onstart     = makefsetter("_onstart")
 tween.onupdate    = makefsetter("_onupdate")
 tween.oncomplete  = makefsetter("_oncomplete")
+tween.onrewindcomplete  = makefsetter("_onrewindcomplete")
+tween.oncyclecomplete  = makefsetter("_oncyclecomplete")
 
 
 function tween.new(obj, time, vars)
@@ -93,6 +101,7 @@ function tween.new(obj, time, vars)
   self._delay = 0
   self._ease = "quadout"
   self.vars = {}
+  self.way = 1
   for k, v in pairs(vars) do
     if type(v) ~= "number" then
       error("bad value for key '" .. k .. "'; expected number")
@@ -162,12 +171,26 @@ function flux:update(deltatime)
       local p = t.progress
       local x = p >= 1 and 1 or flux.easing[t._ease](p)
       for k, v in pairs(t.vars) do
-        t.obj[k] = v.start + x * v.diff
+        t.obj[k] = v.start + x * v.diff * t.way
       end
       if t._onupdate then t._onupdate() end
       if p >= 1 then
-        flux.remove(self, i)
-        if t._oncomplete then t._oncomplete() end
+        if t._rewind and (t._rewind == true or t._rewind > 1) then
+          t.progress = 0
+          t._rewind = (t._rewind == true) or (t._rewind - 1)
+          t.way = t.way * -1
+          for k, v in pairs(t.vars) do
+            t.vars[k].start = t.obj[k]
+          end
+          if t._onrewindcomplete then t._onrewindcomplete() end
+        elseif t._cycle and (t._cycle == true or t._cycle > 1) then
+          t.progress = 0
+          t._cycle = (t._cycle == true) or (t._cycle - 1)
+          if t._oncyclecomplete then t._oncyclecomplete() end
+        else
+          flux.remove(self, i)
+          if t._oncomplete then t._oncomplete() end
+        end
       end
     end
   end
