@@ -70,10 +70,24 @@ function.
 Sets the function `fn` to be called each frame the tween updates a value.
 `onupdate()` can be called multiple times to add more than one function.
 
+#### :cycle(times|forever)
+The amount of times the tween should be repeated. If true is sent, it will
+repeat forever.
+
+#### :rewind(times|forever)
+Similar to the previous one, with the difference that it doesn't start again from the
+initial state, it starts from the final state so it "bounces" back and forth.
+
 #### :oncomplete(fn)
 Sets the function `fn` to be called once the tween has finished and reached its
 destination values. `oncomplete()` can be called multiple times to add more
-than one function.
+
+#### :oncyclecomplete(fn)
+Sets the function `fn` to be called once the tween has finished one of its repetitions.
+
+#### :onrewindcomplete(fn)
+Similar to the previous one, it calls the function `fn` when the tween finishes its
+transition from A to B or B to A.
 
 #### :after([obj,] time, vars)
 Creates a new tween and chains it to the end of the existing tween; the chained
