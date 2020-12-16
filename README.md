@@ -76,7 +76,7 @@ destination values. `oncomplete()` can be called multiple times to add more
 than one function.
 
 #### :after([obj,] time, vars)
-Creates a new tween and chains it to the end of the existing tween; the chained
+Creates and returns a new tween and chains it to the end of the existing tween; the chained
 tween will be called after the original one has finished. Any additional
 chained function used after `:after()` will effect the chained tween. There is
 no limit to how many times `:after()` can be used in a chain, allowing the
